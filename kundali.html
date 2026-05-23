@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Architect of Cosmic Destiny — Srikanth Chintala</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+  :root {
+    --void: #07041a;
+    --midnight: #0d0826;
+    --indigo: #1a1247;
+    --purple: #4a2d7f;
+    --violet: #6b3fa0;
+    --gold: #d4af37;
+    --gold-bright: #f4d03f;
+    --gold-soft: #b8860b;
+    --champagne: #e8d5a0;
+    --rose: #c47b9c;
+    --ivory: #f5f0e1;
+    --crimson: #8b1538;
+    --shadow: 0 10px 40px rgba(0,0,0,0.5);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--void);
+    color: var(--ivory);
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+  /* === COSMIC BACKGROUND === */
+  .cosmos {
+    position: fixed; inset: 0; z-index: -2;
+    background:
+      radial-gradient(ellipse at 20% 10%, rgba(107,63,160,0.35) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 80%, rgba(74,45,127,0.4) 0%, transparent 55%),
+      radial-gradient(ellipse at 50% 50%, rgba(26,18,71,0.6) 0%, transparent 70%),
+      linear-gradient(180deg, #07041a 0%, #0d0826 50%, #07041a 100%);
+  }
+  .stars, .stars2, .stars3 {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  }
+  .stars  { background-image: radial-gradient(1px 1px at 25% 30%, #fff, transparent),
+                            radial-gradient(1px 1px at 70% 80%, #fff, transparent),
+                            radial-gradient(2px 2px at 40% 60%, #f4d03f, transparent),
+                            radial-gradient(1px 1px at 90% 20%, #fff, transparent),
+                            radial-gradient(1px 1px at 15% 85%, #c47b9c, transparent);
+            background-size: 300px 300px; animation: twinkle 6s ease-in-out infinite alternate; }
+  .stars2 { background-image: radial-gradient(1px 1px at 60% 15%, #fff, transparent),
+                            radial-gradient(2px 2px at 30% 70%, #d4af37, transparent),
+                            radial-gradient(1px 1px at 80% 50%, #fff, transparent);
+            background-size: 500px 500px; animation: twinkle 9s ease-in-out infinite alternate-reverse; }
+  .stars3 { background-image: radial-gradient(1.5px 1.5px at 10% 40%, #f4d03f, transparent),
+                            radial-gradient(1px 1px at 55% 90%, #fff, transparent);
+            background-size: 700px 700px; animation: twinkle 12s ease-in-out infinite alternate; }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.4; }
+    50%      { opacity: 1; }
+  }
+  /* === ROTATING MANDALA === */
+  .mandala {
+    position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 1200px; height: 1200px; z-index: -1; opacity: 0.05;
+    animation: rotate 180s linear infinite;
+    pointer-events: none;
+  }
+  @keyframes rotate { to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+  /* === LAYOUT === */
+  .app { max-width: 1280px; margin: 0 auto; padding: 40px 24px 80px; }
+
+  /* === HEADER === */
+  .hero {
+    text-align: center; padding: 40px 20px 60px;
+    position: relative;
+  }
+  .hero::before {
+    content: '✦'; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+    color: var(--gold); font-size: 24px; animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+    50%     { opacity: 1; transform: translateX(-50%) scale(1.3); text-shadow: 0 0 20px var(--gold); }
+  }
+  .hero-eyebrow {
+    font-family: 'Cinzel', serif; letter-spacing: 0.4em; font-size: 11px;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 16px;
+  }
+  .hero-title {
+    font-family: 'Cinzel', serif; font-weight: 600;
+    font-size: clamp(36px, 6vw, 64px);
+    background: linear-gradient(135deg, #f4d03f 0%, #d4af37 30%, #e8d5a0 60%, #d4af37 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    line-height: 1.1; margin-bottom: 16px;
+    text-shadow: 0 0 60px rgba(212,175,55,0.3);
+  }
+  .hero-sub {
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    font-size: clamp(16px, 2vw, 22px); color: var(--champagne); opacity: 0.85;
+    max-width: 720px; margin: 0 auto;
+  }
+  .hero-meta {
+    margin-top: 32px; display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;
+    font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 0.2em; color: var(--gold-soft);
+  }
+  .hero-meta span { padding: 8px 16px; border: 1px solid rgba(212,175,55,0.3); border-radius: 2px; background: rgba(13,8,38,0.5); }
+
+  /* === TABS === */
+  .tabs {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 4px;
+    margin: 40px 0 32px; padding: 8px;
+    background: linear-gradient(135deg, rgba(74,45,127,0.2), rgba(26,18,71,0.4));
+    border: 1px solid rgba(212,175,55,0.2); border-radius: 4px;
+    backdrop-filter: blur(10px);
+  }
+  .tab {
+    flex: 1; min-width: 140px;
+    padding: 14px 18px; border: none; background: transparent; cursor: pointer;
+    font-family: 'Cinzel', serif; letter-spacing: 0.18em; font-size: 11px; text-transform: uppercase;
+    color: var(--champagne); opacity: 0.6; transition: all 0.4s ease; border-radius: 2px;
+    position: relative;
+  }
+  .tab:hover { opacity: 1; color: var(--gold-bright); }
+  .tab.active {
+    opacity: 1; color: #07041a;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-bright) 50%, var(--gold) 100%);
+    box-shadow: 0 0 30px rgba(212,175,55,0.4), inset 0 1px 0 rgba(255,255,255,0.3);
+    font-weight: 600;
+  }
+
+  /* === CARDS === */
+  .grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; }
+  .card {
+    background: linear-gradient(135deg, rgba(26,18,71,0.6) 0%, rgba(13,8,38,0.8) 100%);
+    border: 1px solid rgba(212,175,55,0.2);
+    border-radius: 4px; padding: 28px;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow);
+    position: relative; overflow: hidden;
+    transition: border-color 0.4s, transform 0.4s;
+  }
+  .card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .card:hover { border-color: rgba(212,175,55,0.5); }
+  .card-eyebrow {
+    font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.3em;
+    color: var(--gold); text-transform: uppercase; margin-bottom: 8px;
+  }
+  .card-title {
+    font-family: 'Cormorant Garamond', serif; font-weight: 600;
+    font-size: 26px; color: var(--ivory); margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .card p, .card li {
+    font-family: 'Inter', sans-serif; font-weight: 300; line-height: 1.75;
+    color: rgba(245,240,225,0.85); font-size: 15px;
+  }
+  .card p + p { margin-top: 12px; }
+  .card ul { margin: 12px 0 0 0; padding-left: 20px; }
+  .card li { margin-bottom: 10px; }
+  .card li::marker { color: var(--gold); }
+  .col-12 { grid-column: span 12; }
+  .col-8  { grid-column: span 8; }
+  .col-6  { grid-column: span 6; }
+  .col-4  { grid-column: span 4; }
+  @media (max-width: 900px) {
+    .col-8, .col-6, .col-4 { grid-column: span 12; }
+  }
+
+  /* === ACCENTS === */
+  .accent { color: var(--gold-bright); font-weight: 500; }
+  .rose   { color: var(--rose); font-style: italic; }
+  .truth  { color: #ff6b6b; font-weight: 500; }
+  .strength { color: #6bd49b; font-weight: 500; }
+
+  .divider {
+    text-align: center; margin: 24px 0; color: var(--gold); opacity: 0.4;
+    letter-spacing: 1em; font-size: 12px;
+  }
+
+  /* === KUNDALI CHART === */
+  .chart-wrap {
+    display: flex; justify-content: center; align-items: center;
+    padding: 20px;
+  }
+  .kundali { width: 100%; max-width: 500px; aspect-ratio: 1; }
+  .kundali line { stroke: var(--gold); stroke-width: 1.5; opacity: 0.7; }
+  .kundali .frame { stroke: var(--gold-bright); stroke-width: 2.5; opacity: 0.9; fill: rgba(13,8,38,0.4); }
+  .kundali text.house-num { fill: var(--gold-soft); font-family: 'Cinzel',serif; font-size: 11px; font-weight: 500; opacity: 0.7; }
+  .kundali text.planet    { fill: var(--gold-bright); font-family: 'Cinzel',serif; font-weight: 600; font-size: 13px; }
+  .kundali text.lagna-mark{ fill: #ff6b6b; font-family: 'Cinzel',serif; font-size: 10px; font-weight: 700; }
+  .kundali text.deb { fill: #ff8b8b; }
+  .kundali text.exa { fill: #6bd49b; }
+
+  /* === DATA TABLE === */
+  .data-table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+  .data-table th, .data-table td {
+    padding: 10px 12px; text-align: left; border-bottom: 1px solid rgba(212,175,55,0.15);
+    font-size: 13px;
+  }
+  .data-table th {
+    font-family: 'Cinzel', serif; font-size: 10px; letter-spacing: 0.2em;
+    color: var(--gold); text-transform: uppercase; font-weight: 500;
+  }
+  .data-table td { color: rgba(245,240,225,0.85); }
+  .data-table tr:hover td { background: rgba(212,175,55,0.05); }
+  .badge {
+    display: inline-block; padding: 2px 8px; border-radius: 2px;
+    font-size: 10px; font-family: 'Cinzel',serif; letter-spacing: 0.1em;
+    background: rgba(212,175,55,0.15); color: var(--gold-bright); margin-left: 6px;
+  }
+  .badge.deb { background: rgba(255,107,107,0.15); color: #ff8b8b; }
+  .badge.exa { background: rgba(107,212,155,0.15); color: #6bd49b; }
+  .badge.own { background: rgba(196,123,156,0.15); color: var(--rose); }
+
+  /* === DASHA TIMELINE === */
+  .dasha-bar {
+    height: 8px; background: rgba(74,45,127,0.3); border-radius: 4px;
+    position: relative; margin: 12px 0 24px; overflow: hidden;
+  }
+  .dasha-fill {
+    position: absolute; top: 0; left: 0; height: 100%;
+    background: linear-gradient(90deg, var(--purple), var(--gold));
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(212,175,55,0.4);
+  }
+  .dasha-list { list-style: none; padding: 0; }
+  .dasha-list li {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 14px; margin-bottom: 6px;
+    background: rgba(74,45,127,0.15); border-left: 2px solid rgba(212,175,55,0.2);
+    border-radius: 2px; font-size: 13px;
+  }
+  .dasha-list li.current {
+    background: linear-gradient(90deg, rgba(212,175,55,0.2), rgba(74,45,127,0.2));
+    border-left: 2px solid var(--gold-bright);
+    box-shadow: 0 0 20px rgba(212,175,55,0.15);
+  }
+  .dasha-list li .name { font-family: 'Cinzel', serif; letter-spacing: 0.1em; color: var(--champagne); }
+  .dasha-list li .period { color: var(--gold-soft); font-size: 12px; }
+
+  /* === REMEDY BLOCKS === */
+  .remedy {
+    padding: 18px 20px; background: rgba(74,45,127,0.15);
+    border-left: 3px solid var(--gold); border-radius: 2px; margin-bottom: 14px;
+  }
+  .remedy-title { font-family: 'Cinzel', serif; font-size: 12px; letter-spacing: 0.2em; color: var(--gold-bright); margin-bottom: 8px; }
+  .mantra {
+    font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px;
+    color: var(--champagne); padding: 10px 0; border-top: 1px dashed rgba(212,175,55,0.2);
+    border-bottom: 1px dashed rgba(212,175,55,0.2); margin: 10px 0;
+  }
+
+  /* === KEY METRIC === */
+  .metric {
+    text-align: center; padding: 24px 12px;
+    background: linear-gradient(135deg, rgba(74,45,127,0.25), rgba(13,8,38,0.5));
+    border: 1px solid rgba(212,175,55,0.25); border-radius: 4px;
+  }
+  .metric-value {
+    font-family: 'Cinzel', serif; font-size: 28px; font-weight: 600;
+    background: linear-gradient(135deg, var(--gold-bright), var(--gold));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    margin-bottom: 6px;
+  }
+  .metric-label {
+    font-family: 'Cinzel', serif; font-size: 9px; letter-spacing: 0.3em;
+    color: var(--gold-soft); text-transform: uppercase;
+  }
+
+  /* === FOOTER === */
+  footer {
+    text-align: center; padding: 60px 20px 0;
+    font-family: 'Cormorant Garamond', serif; font-style: italic;
+    color: var(--gold-soft); opacity: 0.7; font-size: 14px;
+  }
+  footer .om { font-size: 32px; color: var(--gold); display: block; margin-bottom: 12px;
+               text-shadow: 0 0 20px rgba(212,175,55,0.5);
+               animation: pulse 4s ease-in-out infinite; }
+
+  /* === SCROLLBAR === */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--midnight); }
+  ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 4px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--gold-soft); }
+</style>
+</head>
+<body>
+<div class="cosmos"></div>
+<div class="stars"></div>
+<div class="stars2"></div>
+<div class="stars3"></div>
+<svg class="mandala" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <g fill="none" stroke="#d4af37" stroke-width="0.3">
+    <circle cx="100" cy="100" r="90"/>
+    <circle cx="100" cy="100" r="75"/>
+    <circle cx="100" cy="100" r="60"/>
+    <circle cx="100" cy="100" r="45"/>
+    <circle cx="100" cy="100" r="30"/>
+    <circle cx="100" cy="100" r="15"/>
+  </g>
+  <g fill="none" stroke="#d4af37" stroke-width="0.2" transform="translate(100,100)">
+    <g><line x1="0" y1="-90" x2="0" y2="90"/><line x1="-90" y1="0" x2="90" y2="0"/></g>
+    <g transform="rotate(30)"><line x1="0" y1="-90" x2="0" y2="90"/></g>
+    <g transform="rotate(60)"><line x1="0" y1="-90" x2="0" y2="90"/></g>
+    <g transform="rotate(120)"><line x1="0" y1="-90" x2="0" y2="90"/></g>
+    <g transform="rotate(150)"><line x1="0" y1="-90" x2="0" y2="90"/></g>
+    <g transform="rotate(45)"><line x1="0" y1="-90" x2="0" y2="90"/></g>
+    <g transform="rotate(15)"><line x1="0" y1="-90" x2="0" y2="90"/></g>
+    <g transform="rotate(75)"><line x1="0" y1="-90" x2="0" y2="90"/></g>
+  </g>
+  <g fill="#d4af37" opacity="0.4">
+    <circle cx="100" cy="10" r="1.5"/>
+    <circle cx="100" cy="190" r="1.5"/>
+    <circle cx="10" cy="100" r="1.5"/>
+    <circle cx="190" cy="100" r="1.5"/>
+  </g>
+</svg>
+
+<div id="root"></div>
+
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+/* ====== CHART DATA ====== */
+const NATIVE = {
+  name: "Srikanth Chintala",
+  date: "19 April 1997",
+  time: "05:05 AM IST",
+  place: "Endapalli, Velgatoor, Karimnagar, Telangana"
+};
+
+// Houses 1..12 with planets. Pisces Lagna means H1=Pisces, H2=Aries, ... H7=Virgo, H11=Capricorn
+const HOUSES = {
+  1:  { sign: "Pisces",      planets: ["Lg", "Ve(E)", "Ma", "Sa", "Ke"] },
+  2:  { sign: "Aries",       planets: ["Su", "Me"] },
+  3:  { sign: "Taurus",      planets: [] },
+  4:  { sign: "Gemini",      planets: [] },
+  5:  { sign: "Cancer",      planets: [] },
+  6:  { sign: "Leo",         planets: [] },
+  7:  { sign: "Virgo",       planets: ["Mo", "Ra"] },
+  8:  { sign: "Libra",       planets: [] },
+  9:  { sign: "Scorpio",     planets: [] },
+  10: { sign: "Sagittarius", planets: [] },
+  11: { sign: "Capricorn",   planets: ["Ju(D)"] },
+  12: { sign: "Aquarius",    planets: [] }
+};
+
+const PLANETS = [
+  { name: "Lagna",   sign: "Pisces (Meena)",   deg: "25°12'", nak: "Revati",          pada: 4, lord: "Mercury", note: "Final degree of zodiac — soul of completion" },
+  { name: "Sun",     sign: "Aries (Mesha)",    deg: "5°02'",  nak: "Ashwini",         pada: 2, lord: "Ketu",    note: "Healer of the cosmos · Combust intensity" },
+  { name: "Moon",    sign: "Virgo (Kanya)",    deg: "8°20'",  nak: "Uttara Phalguni", pada: 4, lord: "Sun",     note: "Royal patronage · with Rahu = restless mind" },
+  { name: "Mars",    sign: "Pisces",           deg: "21°08'", nak: "Revati",          pada: 4, lord: "Mercury", note: "Friendly · gives vision-driven action" },
+  { name: "Mercury", sign: "Aries",            deg: "17°44'", nak: "Bharani",         pada: 2, lord: "Venus",   note: "Combust — burns the analytical edge" },
+  { name: "Jupiter", sign: "Capricorn",        deg: "3°16'",  nak: "Uttara Ashadha",  pada: 1, lord: "Sun",     note: "DEBILITATED — Neecha · 11H gain bhanga" , flag:"deb"},
+  { name: "Venus",   sign: "Pisces",           deg: "24°50'", nak: "Revati",          pada: 4, lord: "Mercury", note: "EXALTED — Param Uchcha in Lagna · Diamond of chart", flag:"exa" },
+  { name: "Saturn",  sign: "Pisces",           deg: "21°42'", nak: "Revati",          pada: 4, lord: "Mercury", note: "Karmic anchor on the body & ego" },
+  { name: "Rahu",    sign: "Virgo",            deg: "0°15'",  nak: "Uttara Phalguni", pada: 2, lord: "Sun",     note: "Hunger for partnership/foreign · with Moon" },
+  { name: "Ketu",    sign: "Pisces",           deg: "0°15'",  nak: "Revati",          pada: 1, lord: "Mercury", note: "Past-life moksha karma in Lagna" }
+];
+
+const DASHA = [
+  { lord: "Sun",     start: "1997 Apr", end: "1997 Sep", years: 0.5 },
+  { lord: "Moon",    start: "1997 Sep", end: "2007 Sep", years: 10  },
+  { lord: "Mars",    start: "2007 Sep", end: "2014 Sep", years: 7   },
+  { lord: "Rahu",    start: "2014 Sep", end: "2032 Sep", years: 18, current: true },
+  { lord: "Jupiter", start: "2032 Sep", end: "2048 Sep", years: 16  },
+  { lord: "Saturn",  start: "2048 Sep", end: "2067 Sep", years: 19  }
+];
+
+const ANTAR = [
+  { lord: "Rahu",    start: "2014 Sep", end: "2017 Jun" },
+  { lord: "Jupiter", start: "2017 Jun", end: "2019 Nov" },
+  { lord: "Saturn",  start: "2019 Nov", end: "2022 Sep" },
+  { lord: "Mercury", start: "2022 Sep", end: "2025 Apr" },
+  { lord: "Ketu",    start: "2025 Apr", end: "2026 Apr" },
+  { lord: "Venus",   start: "2026 Apr", end: "2029 Apr", current: true },
+  { lord: "Sun",     start: "2029 Apr", end: "2030 Mar" },
+  { lord: "Moon",    start: "2030 Mar", end: "2031 Sep" },
+  { lord: "Mars",    start: "2031 Sep", end: "2032 Sep" }
+];
+
+/* ====== NORTH-INDIAN KUNDALI SVG ======
+   Standard layout: diamond inside square. Lagna is fixed top-center diamond.
+   House positions (centroids approx) for placing planet text. */
+function Kundali() {
+  // SVG viewBox 400x400
+  // Vertices of outer square: (0,0)(400,0)(400,400)(0,400)
+  // Mid-points: (200,0)(400,200)(200,400)(0,200)
+  // Inner diamond: top(200,0) right(400,200) bottom(200,400) left(0,200)
+  // Diagonals: (0,0)-(400,400) and (400,0)-(0,400) intersect at (200,200)
+  const cells = [
+    // [houseNum, cx, cy]
+    [1, 200,  90],   // top diamond center
+    [2, 100,  50],
+    [3,  50, 100],
+    [4, 100, 200],
+    [5,  50, 300],
+    [6, 100, 350],
+    [7, 200, 310],
+    [8, 300, 350],
+    [9, 350, 300],
+    [10,300, 200],
+    [11,350, 100],
+    [12,300,  50]
+  ];
+  return (
+    <svg className="kundali" viewBox="0 0 400 400">
+      <defs>
+        <radialGradient id="chartGlow" cx="50%" cy="50%" r="60%">
+          <stop offset="0%"  stopColor="rgba(107,63,160,0.25)"/>
+          <stop offset="100%" stopColor="rgba(13,8,38,0)"/>
+        </radialGradient>
+      </defs>
+      <rect x="0" y="0" width="400" height="400" fill="url(#chartGlow)"/>
+      {/* outer frame */}
+      <rect className="frame" x="2" y="2" width="396" height="396"/>
+      {/* diamond */}
+      <polygon className="frame" points="200,2 398,200 200,398 2,200"/>
+      {/* diagonals */}
+      <line x1="2" y1="2" x2="398" y2="398"/>
+      <line x1="398" y1="2" x2="2" y2="398"/>
+
+      {cells.map(([h, cx, cy]) => {
+        const data = HOUSES[h];
+        return (
+          <g key={h}>
+            <text className="house-num" x={cx - 36} y={cy - 30}>{h}</text>
+            {data.planets.map((p, i) => {
+              const isLg = p === "Lg";
+              const isExa = p.includes("(E)");
+              const isDeb = p.includes("(D)");
+              const cls = isLg ? "lagna-mark" : (isExa ? "planet exa" : (isDeb ? "planet deb" : "planet"));
+              const display = p.replace("(E)","").replace("(D)","");
+              return (
+                <text key={i} className={cls} x={cx} y={cy - 6 + i * 16} textAnchor="middle">
+                  {display}{isExa && " ↑"}{isDeb && " ↓"}
+                </text>
+              );
+            })}
+          </g>
+        );
+      })}
+    </svg>
+  );
+}
+
+/* ====== TAB CONTENT COMPONENTS ====== */
+
+function Overview() {
+  return (
+    <>
+      <div className="grid">
+        <div className="col-8">
+          <div className="card">
+            <div className="card-eyebrow">Pillar I · The Foundation</div>
+            <div className="card-title">Lagna in Revati — The Final Threshold of the Zodiac</div>
+            <p>
+              You incarnate at <span className="accent">25°12' Pisces</span> — the final pada of <span className="accent">Revati Nakshatra</span>, ruled by Mercury and presided by Pushan, the shepherd god who guides souls across the river between worlds. This is no ordinary placement: <span className="rose">you are a soul-completer</span>. Beings born in Revati's last pada have, in Vedic tradition, exhausted nearly all karmic debts and are here to <em>finalize, transmit, and transcend</em>.
+            </p>
+            <p>
+              Pisces Lagna gives you a <span className="accent">multi-spectral mind</span> — fluid, intuitive, philosophical. You don't think in lines; you think in oceans. But Pisces also gifts you a Lagna Lord — <span className="accent">Jupiter — who sits debilitated in the 11th</span>. That single fact is the <span className="truth">central paradox</span> of your life: vast inner wisdom shackled to a stubborn need for external validation. Resolving that paradox <em>is</em> your dharma.
+            </p>
+            <p>
+              The 1st house carries a <span className="accent">stellium of five graha</span>: <span className="strength">Venus exalted (your shining gift)</span>, Mars (drive), Saturn (discipline & gravitas), Ketu (detachment), and the ascendant itself. Five planetary forces meeting at the doorway of your body. You walk into rooms and people <em>feel</em> something — a magnetism they can't name. That is the exalted Venus radiating through your form.
+            </p>
+          </div>
+        </div>
+        <div className="col-4">
+          <div className="card">
+            <div className="card-eyebrow">Esoteric Soul Purpose</div>
+            <div className="card-title">Pushan's Compass</div>
+            <p style={{fontFamily:"'Cormorant Garamond',serif", fontSize:"17px", fontStyle:"italic", color:"var(--champagne)"}}>
+              "To stand at thresholds, hold the lantern, and walk others through their darkness — without becoming their darkness."
+            </p>
+            <div className="divider">✧ ✦ ✧</div>
+            <ul>
+              <li>Soul-age: <span className="accent">old, near-graduating</span></li>
+              <li>Karmic theme: <span className="accent">letting go of saviour pattern</span></li>
+              <li>Symbol: <span className="accent">the fish becoming light</span></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="col-6">
+          <div className="card">
+            <div className="card-eyebrow">North Indian Lagna Chart</div>
+            <div className="card-title">Janma Kundali · D1</div>
+            <div className="chart-wrap"><Kundali/></div>
+            <p style={{fontSize:"12px", textAlign:"center", color:"var(--gold-soft)"}}>
+              Lg = Lagna · ↑ Exalted · ↓ Debilitated · Lahiri Ayanamsa
+            </p>
+          </div>
+        </div>
+
+        <div className="col-6">
+          <div className="card" style={{height:"100%"}}>
+            <div className="card-eyebrow">Planetary Positions</div>
+            <div className="card-title">The Nine Lights & The Ascendant</div>
+            <div style={{overflowX:"auto"}}>
+              <table className="data-table">
+                <thead><tr><th>Graha</th><th>Sign</th><th>°</th><th>Nakshatra</th></tr></thead>
+                <tbody>
+                  {PLANETS.map(p => (
+                    <tr key={p.name}>
+                      <td>
+                        <strong>{p.name}</strong>
+                        {p.flag === "exa" && <span className="badge exa">Exalted</span>}
+                        {p.flag === "deb" && <span className="badge deb">Debilitated</span>}
+                      </td>
+                      <td>{p.sign}</td>
+                      <td>{p.deg}</td>
+                      <td>{p.nak} <span style={{color:"var(--gold-soft)",fontSize:"11px"}}>· {p.pada}</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-12">
+          <div className="card">
+            <div className="card-eyebrow">The Time Stream · Pillar III</div>
+            <div className="card-title">Mahadasha & Antardasha — Where You Stand Now</div>
+            <p>
+              You are running <span className="accent">Rahu Mahadasha</span> (Sept 2014 – Sept 2032), the most transformational 18-year cycle in Vimshottari. Rahu sits in your <span className="accent">7th house with Moon in Virgo</span> — meaning this entire cycle is forcing growth through <em>partnership, public visibility, foreign exposure, and analytical mastery</em>.
+            </p>
+            <p>
+              As of <span className="accent">May 2026</span>, you have just entered <span className="accent">Rahu / Venus Antardasha</span> (April 2026 – April 2029). This is <span className="strength">the single most fortunate sub-period of the entire 18-year Rahu cycle</span> — because Venus is exalted in your Lagna and is the <em>karaka of love, wealth, art, vehicles, and luxury</em>. Rahu lends ambition; Venus lends grace. Together: <span className="rose">undeniable rise</span>.
+            </p>
+            <div className="dasha-bar"><div className="dasha-fill" style={{width: "65%"}}></div></div>
+            <div style={{display:"flex", justifyContent:"space-between", fontSize:"11px", color:"var(--gold-soft)", fontFamily:"'Cinzel',serif", letterSpacing:"0.1em"}}>
+              <span>1997</span><span>2014 · RAHU BEGINS</span><span style={{color:"var(--gold-bright)"}}>2026 · YOU ARE HERE</span><span>2032</span>
+            </div>
+
+            <div className="grid" style={{marginTop:"24px"}}>
+              <div className="col-6">
+                <div className="card-eyebrow" style={{marginBottom:"12px"}}>Mahadasha Sequence</div>
+                <ul className="dasha-list">
+                  {DASHA.map(d => (
+                    <li key={d.lord} className={d.current ? "current" : ""}>
+                      <span className="name">{d.lord}{d.current && " ◆"}</span>
+                      <span className="period">{d.start} → {d.end}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="col-6">
+                <div className="card-eyebrow" style={{marginBottom:"12px"}}>Antardasha within Rahu</div>
+                <ul className="dasha-list">
+                  {ANTAR.map(d => (
+                    <li key={d.lord} className={d.current ? "current" : ""}>
+                      <span className="name">Rahu / {d.lord}{d.current && " ◆"}</span>
+                      <span className="period">{d.start} → {d.end}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="col-4"><div className="metric"><div className="metric-value">5</div><div className="metric-label">Planets in Lagna</div></div></div>
+        <div className="col-4"><div className="metric"><div className="metric-value">Venus ↑</div><div className="metric-label">Exalted in 1st House</div></div></div>
+        <div className="col-4"><div className="metric"><div className="metric-value">Jupiter ↓</div><div className="metric-label">Debilitated in 11th</div></div></div>
+      </div>
+    </>
+  );
+}
+
+function CareerKarma() {
+  return (
+    <div className="grid">
+      <div className="col-12">
+        <div className="card">
+          <div className="card-eyebrow">Pillar II · The Karma Yoga</div>
+          <div className="card-title">10th House, Saturn & The Dashamsha (D10) — Your Professional Mandala</div>
+          <p>
+            Your <span className="accent">10th house is Sagittarius</span>, ruled by Jupiter. Empty of planets but ruled by a <span className="truth">debilitated Jupiter sitting in the 11th</span> — the house of gains, networks, and elder brothers/peers. The translation is precise:
+            <em> your career rises through networks, peer-circles, and gain-driven environments — but only if you do the inner work to <span className="strength">"un-debilitate"</span> Jupiter through wisdom, ethics, and refusal of shortcuts.</em>
+          </p>
+          <p>
+            <span className="accent">Saturn sits in your 1st house in Pisces</span>, on your very body — gifting you the <span className="strength">"old soul" gravitas</span> people sense, the discipline of an ascetic, and the patience of a chess grandmaster. But Saturn here also delays early-career recognition. Anything you got before age 28 was <em>practice</em>; the real arc starts <span className="accent">post-2026</span>.
+          </p>
+          <p>
+            With Mars also in the 1st (energy + initiative on body) and exalted Venus (charisma, design-sense, magnetism) — your 10th-house empty becomes a <span className="rose">canvas painted from within</span>. You don't fit a job; jobs reshape around you.
+          </p>
+        </div>
+      </div>
+
+      <div className="col-6">
+        <div className="card">
+          <div className="card-eyebrow">High-Growth Sectors For You</div>
+          <div className="card-title">Where Rahu/Venus Wants You</div>
+          <p>Rahu in Virgo + exalted Venus + Saturn in Pisces points to a precise career-DNA. Pursue convergence:</p>
+          <ul>
+            <li><span className="accent">Product Management at AI/ML companies</span> — Rahu (disruption) + Mercury (analytics) + Venus (UX/aesthetics). This is your bullseye.</li>
+            <li><span className="accent">Cybersecurity & Trust Engineering</span> — Saturn-Mars-Ketu in Pisces is a <em>classic security mind</em>: paranoid, patient, pattern-seeing.</li>
+            <li><span className="accent">FinTech / Wealth-tech</span> — 11H Jupiter (gains) + 2H Sun-Mercury (income & speech) = communicating money systems.</li>
+            <li><span className="accent">Strategy / Consulting at scale</span> — Pisces lagna = ocean-thinking; Saturn = structure. Deloitte-tier work fits, but the <em>real chapter</em> is independent advisory by 2028.</li>
+            <li><span className="accent">Spiritual-tech / Wellness platforms</span> — Ketu in Lagna will pull you here in your 40s. Don't resist it.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="col-6">
+        <div className="card">
+          <div className="card-eyebrow">Leadership Signature</div>
+          <div className="card-title">How You Lead vs. How You Should Lead</div>
+          <p><span className="truth">Hard truth:</span> Saturn-Mars-Ketu on your body makes you a <em>silent intensity</em> leader. You <em>think</em> people are reading your mind. They aren't. Your team sees stillness and assumes either mastery or disinterest.</p>
+          <p><span className="strength">Great strength:</span> exalted Venus makes you the rarest kind of leader — one whose presence creates <em>psychological safety</em>. People do their best work near you.</p>
+          <p><span className="rose">Action:</span> over-communicate by 30% of what feels natural. Run weekly written updates. Your stillness will then be read as <em>command presence</em>, not absence.</p>
+        </div>
+      </div>
+
+      <div className="col-12">
+        <div className="card">
+          <div className="card-eyebrow">The Great Switch · Timing</div>
+          <div className="card-title">When To Make The Move</div>
+          <p>
+            Three astrological windows align as launch portals. Each is a real, dated opportunity — not a vibe.
+          </p>
+          <ul>
+            <li><span className="accent">Window I · July 2026 – March 2027 (Rahu/Venus + Jupiter return aspect):</span> Best window to <em>negotiate a senior title, switch firms, or take a strategic equity offer</em>. Salary jumps of 40-60% are realistic. Use it.</li>
+            <li><span className="accent">Window II · Sept 2027 – Feb 2028 (Saturn enters Pisces fully):</span> The <span className="rose">"Great Switch"</span>. Saturn returns to your Lagna for the first time since birth. This is when you <em>leave employment to build your own venture or step into a CXO seat</em>. If you ignore this window, you'll wait until 2056.</li>
+            <li><span className="accent">Window III · 2029 onward (Rahu/Sun):</span> Public visibility — speaking, writing, founder-PR. Your face becomes your brand.</li>
+          </ul>
+          <p style={{marginTop:"16px"}}><span className="truth">Avoid:</span> any job change between Aug – Dec 2026 if it requires relocating without a written role-clarity document. Rahu/Venus can over-promise.</p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LoveUnion() {
+  return (
+    <div className="grid">
+      <div className="col-12">
+        <div className="card">
+          <div className="card-eyebrow">Pillar IV · Relationship Alchemy</div>
+          <div className="card-title">7th House Virgo · Moon-Rahu Conjunction · Venus Exalted</div>
+          <p>
+            The 7th house is the mirror in which the soul sees the other. Yours holds <span className="accent">Moon and Rahu in Virgo</span> — a placement of <span className="rose">karmic, magnetic, slightly obsessive partnership</span>. Rahu here means you don't fall for "appropriate" partners; you fall for <em>unusual</em> ones — foreign-cultured, intellectually overdriven, age-gap, or someone who arrives in your life under chaotic circumstances.
+          </p>
+          <p>
+            Moon-Rahu is a <span className="truth">double-edged blade</span>: it gives a partner of stunning intelligence and emotional depth, but also a relationship dynamic where <em>your inner peace becomes hostage to their moods</em>. The classic shadow: chasing partners who give 70% so you keep performing for the missing 30%.
+          </p>
+          <p>
+            Counterbalancing this — and this is your <span className="strength">superpower</span> — is <span className="strength">Venus exalted in Lagna</span>. You yourself are designed to attract love. You don't need to chase. The chart literally says: <em>stand still, dress well, speak softly — they come.</em>
+          </p>
+        </div>
+      </div>
+
+      <div className="col-6">
+        <div className="card">
+          <div className="card-eyebrow">Hard Truths · Read Twice</div>
+          <div className="card-title">Where You Sabotage Yourself</div>
+          <ul>
+            <li><span className="truth">You over-give early.</span> Venus exalted in Lagna = you can love a stranger by week three. Slow down by 50%.</li>
+            <li><span className="truth">You confuse intensity with compatibility.</span> Rahu loves intensity. The right partner will feel <em>quiet and oddly familiar</em>, not fireworks.</li>
+            <li><span className="truth">You stay too long.</span> Saturn in Lagna gives you patience that becomes self-betrayal. If a relationship hasn't deepened in 12 months, it won't.</li>
+            <li><span className="truth">You hide your ambition</span> from partners who can't match it. Stop. The right one will be turned on by it.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="col-6">
+        <div className="card">
+          <div className="card-eyebrow">Great Strengths · Trust These</div>
+          <div className="card-title">What You Bring To Union</div>
+          <ul>
+            <li><span className="strength">Loyalty of Saturn</span> — once committed, you are a fortress.</li>
+            <li><span className="strength">Aesthetic of Venus</span> — your home, gestures, words feel curated. Partners feel <em>seen</em>.</li>
+            <li><span className="strength">Emotional intelligence of Pisces lagna</span> — you can read a room in 8 seconds.</li>
+            <li><span className="strength">Healing presence of Ketu</span> — broken-winged people land softly with you. (Use this carefully — see Hard Truths.)</li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="col-12">
+        <div className="card">
+          <div className="card-eyebrow">Marriage Timing</div>
+          <div className="card-title">When The Door Opens</div>
+          <p>
+            Vimshottari + transit synthesis points to <span className="accent">two prime windows for committed union or marriage</span>:
+          </p>
+          <ul>
+            <li><span className="accent">Primary · October 2026 – December 2027</span> · Rahu/Venus, Jupiter transits Gemini-Cancer aspecting your 7th. <em>Highest probability window</em>.</li>
+            <li><span className="accent">Secondary · 2029 – mid 2030</span> · Rahu/Sun, then Rahu/Moon. Marriage by introduction, family-arranged, or via professional circle.</li>
+          </ul>
+          <p style={{marginTop:"14px"}}>
+            Partner archetype: <span className="rose">Virgo Sun, Moon or Ascendant strongly indicated</span>. They will be — analytical, slightly perfectionist, possibly in healthcare, finance, data, or research. Foreign element (lived abroad / mixed background) very likely. Often introduced via work or a mutual mentor.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function HealthVitality() {
+  return (
+    <div className="grid">
+      <div className="col-12">
+        <div className="card">
+          <div className="card-eyebrow">Pillar V · The Body As Temple</div>
+          <div className="card-title">1st House Loaded · 6th House Empty · The Pisces Body</div>
+          <p>
+            Five planets sitting on your Lagna means <span className="accent">your body is the most karmically active site of your life</span>. Everything happening inside your psyche eventually expresses physically. You are <em>somatically wired</em> — emotions don't stay emotions; they become tension, sleep patterns, gut signals, energy levels.
+          </p>
+          <p>
+            Pisces governs <span className="accent">feet, lymphatic system, immune-system fluids, and the subconscious nervous system</span>. With Saturn-Mars-Ketu here, the body's vulnerabilities are precise:
+          </p>
+          <ul>
+            <li><span className="truth">Lymphatic stagnation & water retention</span> — drink more than you think you need.</li>
+            <li><span className="truth">Nervous-system overdrive</span> — Saturn-Mars on Lagna = chronic low-grade cortisol. Show up to sleep early; it's medicine.</li>
+            <li><span className="truth">Foot/ankle weakness</span> — train them deliberately. Walk barefoot on grass weekly.</li>
+            <li><span className="truth">Auto-immune sensitivity</span> — Ketu in Lagna can mean misdiagnosed symptoms. Never accept the first specialist's view; get second opinions.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="col-6">
+        <div className="card">
+          <div className="card-eyebrow">Mental Health Architecture</div>
+          <div className="card-title">Moon-Rahu in Virgo</div>
+          <p>This is the most important placement in your chart for <span className="rose">long-term wellbeing</span>. Moon (mind) with Rahu (amplifier) in Virgo (analyzer) creates a mind that:</p>
+          <ul>
+            <li>Loops on detail and what-if</li>
+            <li>Catastrophizes during sleep deprivation</li>
+            <li>Self-medicates through over-work or screens</li>
+            <li>Heals dramatically through structured meditation</li>
+          </ul>
+          <p style={{marginTop:"12px"}}><span className="strength">Non-negotiable practice:</span> 20 minutes of <em>Trataka</em> (candle-flame gazing) or Vipassana-style breath work, daily. It calms Rahu more than any pharmaceutical.</p>
+        </div>
+      </div>
+
+      <div className="col-6">
+        <div className="card">
+          <div className="card-eyebrow">Vitality Protocol</div>
+          <div className="card-title">Body-Honoring Discipline</div>
+          <ul>
+            <li><span className="accent">Diet:</span> warm, cooked, slightly oily (ghee). Reduce raw salads — Pisces lagnas struggle with cold/raw.</li>
+            <li><span className="accent">Movement:</span> Yoga &gt; weights. Specifically <em>Surya Namaskar 12 rounds AM</em>, three times a week.</li>
+            <li><span className="accent">Sleep:</span> 10:30 PM hard cutoff. Saturn rewards this brutally.</li>
+            <li><span className="accent">Substances:</span> Ketu in Lagna = low tolerance. Be conservative with alcohol/cannabis — your nervous system over-reacts.</li>
+            <li><span className="accent">Annual:</span> 3-day silent retreat. Once a year. Non-optional past 2027.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function WealthArtha() {
+  return (
+    <div className="grid">
+      <div className="col-12">
+        <div className="card">
+          <div className="card-eyebrow">Pillar IV · Abundance Mathematics</div>
+          <div className="card-title">2nd House (Income) · 11th House (Gains) · Jupiter Debilitated</div>
+          <p>
+            Your <span className="accent">2nd house holds Sun and Mercury in Aries</span> — fiery, ambitious, communicative income. You will earn primarily through <em>your voice, your written words, your direct expression</em>. Speaking, writing, presenting, advising. The mouth is your money-organ.
+          </p>
+          <p>
+            Your <span className="accent">11th house has Jupiter — debilitated</span> — in Capricorn. This is the chart's <span className="truth">single greatest paradox</span>: the planet of gain sits in the house of gain, but in its weakest sign. Translation:
+          </p>
+          <p style={{paddingLeft:"20px", borderLeft:"3px solid var(--gold)", margin:"16px 0", fontStyle:"italic", color:"var(--champagne)"}}>
+            "You will earn very well, but it will <em>feel</em> like less than your peers — because Jupiter debilitated creates an internal voice that whispers <span className="rose">'this isn't enough yet'</span>, even when the numbers say otherwise."
+          </p>
+          <p>
+            Until you <span className="strength">heal that internal narrator</span>, no amount of money will satisfy. Once you do, the chart releases <em>Neecha Bhanga Raja Yoga</em> — debilitation cancellation — and Jupiter delivers in volume.
+          </p>
+        </div>
+      </div>
+
+      <div className="col-6">
+        <div className="card">
+          <div className="card-eyebrow">Hard Truths · Wealth</div>
+          <div className="card-title">Where Money Leaks</div>
+          <ul>
+            <li><span className="truth">You under-quote yourself by 20-30%.</span> Whatever number you're about to say, add a third. Watch how often it gets accepted.</li>
+            <li><span className="truth">You delay investing.</span> Saturn lagna = "I'll start when I have more." That day never comes. Start with 1.</li>
+            <li><span className="truth">You give to people in deficit.</span> Pisces + Ketu = saviour finance. Family, friends, dependents — set hard limits or wealth never compounds.</li>
+            <li><span className="truth">You buy luxury before assets.</span> Exalted Venus loves beautiful things. Discipline: assets first, indulgence second.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="col-6">
+        <div className="card">
+          <div className="card-eyebrow">Great Strengths · Wealth</div>
+          <div className="card-title">Where Money Multiplies</div>
+          <ul>
+            <li><span className="strength">Skill-based income compounding</span> — your salary curve is exponential, not linear. Trust it.</li>
+            <li><span className="strength">Networks &gt; investments</span> — your 11H is not weak; it just needs the right people. One key connection between 2026-2028 changes your decade.</li>
+            <li><span className="strength">Real estate after 2030</span> — Saturn return + Jupiter MD = long-hold land/property is highly favored.</li>
+            <li><span className="strength">Equity over salary</span> — by 2027 onward, accept stock/equity over cash bonuses. The chart strongly favors capital appreciation paths.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="col-12">
+        <div className="card">
+          <div className="card-eyebrow">Pillar V · Upayas — The Remedies</div>
+          <div className="card-title">Practical Daily Remedial System</div>
+          <p>These are sequenced. Do them in order. Each is calibrated to a specific chart-imbalance.</p>
+
+          <div className="remedy">
+            <div className="remedy-title">Remedy I · For Debilitated Jupiter (most important)</div>
+            <p>Recite the Guru beej mantra <span className="accent">108 times every Thursday morning</span> after a bath, facing northeast. This is the single highest-leverage remedy in your chart.</p>
+            <div className="mantra">ॐ ग्रां ग्रीं ग्रौं सः गुरवे नमः · Om Graam Greem Graum Sah Gurave Namah</div>
+            <p>Behavioral pairing: every Thursday, perform one act of teaching — share knowledge, mentor someone, write a thread, record a lesson. This is what <em>actually</em> un-debilitates Jupiter: <span className="strength">becoming the teacher you keep seeking</span>.</p>
+          </div>
+
+          <div className="remedy">
+            <div className="remedy-title">Remedy II · For Exalted Venus (amplification, not correction)</div>
+            <p>Friday is your power day. Wear white or pastels. Light a white candle near a mirror at sunrise. Recite:</p>
+            <div className="mantra">ॐ द्रां द्रीं द्रौं सः शुक्राय नमः · Om Draam Dreem Draum Sah Shukraya Namah</div>
+            <p><span className="accent">Gemstone (only after astrological consultation):</span> <strong>Diamond</strong> (4–5 ratti) or <strong>White Sapphire</strong> set in platinum/silver, worn on right ring finger. Activates exalted Venus. <span className="truth">Do not</span> wear without a qualified jyotishi confirming via varga charts.</p>
+          </div>
+
+          <div className="remedy">
+            <div className="remedy-title">Remedy III · For Moon-Rahu in 7th (mental peace + relationship)</div>
+            <p>Donate <span className="accent">white rice, milk, and silver coins</span> on Mondays at sunset. Light a diya at home with cow's ghee. Avoid alcohol on Mondays — non-negotiable.</p>
+            <div className="mantra">ॐ श्रां श्रीं श्रौं सः चन्द्रमसे नमः · Om Shraam Shreem Shraum Sah Chandramase Namah</div>
+            <p>Pair with: <span className="strength">written journaling for 7 minutes daily</span>. Rahu thrives on chaos in the mind; the page tames it.</p>
+          </div>
+
+          <div className="remedy">
+            <div className="remedy-title">Remedy IV · For Saturn-Mars in Lagna (somatic release)</div>
+            <p>Saturday evenings: <span className="accent">light a mustard-oil diya under a Peepal tree</span> if accessible. Otherwise, donate to manual laborers — workers who serve with their hands. Saturn rules them.</p>
+            <div className="mantra">ॐ प्रां प्रीं प्रौं सः शनैश्चराय नमः · Om Praam Preem Praum Sah Shanaishcharaya Namah</div>
+            <p>Behavioral: <span className="strength">never speak ill of the elderly, the disabled, or the working class</span>. Saturn punishes this fast and rewards reverence equally fast.</p>
+          </div>
+
+          <div className="remedy">
+            <div className="remedy-title">Remedy V · For Ketu in Lagna (the moksha thread)</div>
+            <p>This is not a correction — Ketu in Lagna is a gift of detachment. Honor it:</p>
+            <ul>
+              <li>Visit a Ganesha temple on the 4th of every month.</li>
+              <li>Keep a small section of your room minimal — almost empty. Ketu lives there.</li>
+              <li>Once a year, take a 3-day silent retreat. Mountains preferred.</li>
+              <li>Mantra (only when seeking clarity): <em>Om Ketave Namah</em> — 108 repetitions.</li>
+            </ul>
+          </div>
+
+          <div className="divider">✧ ✦ ✧</div>
+
+          <p style={{textAlign:"center", fontFamily:"'Cormorant Garamond',serif", fontStyle:"italic", color:"var(--champagne)", fontSize:"18px", padding:"12px 24px"}}>
+            "The chart shows the wind. You are still the sailor.<br/>
+            Remedies are not prayers for change — they are the rudder you choose to hold."
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ====== APP SHELL ====== */
+function App() {
+  const [tab, setTab] = useState("overview");
+  const tabs = [
+    { id: "overview", label: "Overview" },
+    { id: "career",   label: "Career & Karma" },
+    { id: "love",     label: "Love & Union" },
+    { id: "health",   label: "Health & Vitality" },
+    { id: "wealth",   label: "Wealth · Artha" }
+  ];
+
+  useEffect(() => {
+    document.documentElement.scrollTo({ top: 0, behavior: "smooth" });
+  }, [tab]);
+
+  return (
+    <div className="app">
+      <header className="hero">
+        <div className="hero-eyebrow">Architect of Cosmic Destiny</div>
+        <h1 className="hero-title">{NATIVE.name}</h1>
+        <p className="hero-sub">A multi-dimensional Vedic Kundali · woven from the night sky on the dawn of {NATIVE.date}, at the very threshold between {NATIVE.time.replace(" IST"," ")} and the rising sun over {NATIVE.place.split(",")[0]}.</p>
+        <div className="hero-meta">
+          <span>◆ {NATIVE.date}</span>
+          <span>◆ {NATIVE.time}</span>
+          <span>◆ {NATIVE.place}</span>
+          <span>◆ Pisces Lagna · Revati</span>
+        </div>
+      </header>
+
+      <nav className="tabs">
+        {tabs.map(t => (
+          <button key={t.id} className={"tab " + (tab===t.id ? "active" : "")} onClick={() => setTab(t.id)}>
+            {t.label}
+          </button>
+        ))}
+      </nav>
+
+      <main>
+        {tab === "overview" && <Overview/>}
+        {tab === "career"   && <CareerKarma/>}
+        {tab === "love"     && <LoveUnion/>}
+        {tab === "health"   && <HealthVitality/>}
+        {tab === "wealth"   && <WealthArtha/>}
+      </main>
+
+      <footer>
+        <span className="om">ॐ</span>
+        Crafted with the discipline of Saturn, the grace of Venus, and the compass of Pushan.<br/>
+        <em>May your dharma walk you home.</em>
+      </footer>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
