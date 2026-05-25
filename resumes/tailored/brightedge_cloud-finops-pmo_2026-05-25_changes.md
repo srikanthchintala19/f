@@ -160,3 +160,48 @@ Every change is listed below as **Before → After + Why**. The original resume 
 
 1. **Enrol in FinOps Foundation FOCUS Practitioner this week.** Free intro courses available; full cert ~$300. Without this, the "Active Learning" claim is weaker in interviews.
 2. **Build a sample cloud-cost dashboard in Excel.** Use AWS Pricing Calculator + dummy multi-account data. Bring screenshots to the interview. This single artefact closes the "no cloud experience" objection cold.
+
+---
+
+## v2 Updates (added after first round)
+
+### CHG-16 — NEW experience block: Tooclarity
+
+- **Before:** Not on resume.
+- **After:** New experience block "Tooclarity (tooclarity.com) | Hyderabad, India (travel across India) — Project Manager — Institutional Outreach & Onboarding — 2025 (project engagement)" with 4 bullets.
+- **Why for BrightEdge specifically:** This story hits 4 of BrightEdge's exact requirements at once:
+  - **Pipeline & follow-up discipline** ("built and ran the outreach pipeline... post-visit follow-ups... lightweight CRM... kept nothing slipping through the cracks in a fast-paced, multi-stakeholder setting") — directly mirrors JD's *"follow up on invoices, billing items, cost anomalies, action items, and stakeholder requests on time"*
+  - **Trackers + status + shared backlog** — JD's *"Maintain trackers, dashboards, and spreadsheets used for budgeting, reporting, and cost visibility"*
+  - **Cross-functional coordination** — JD's *"Work with internal stakeholders to gather inputs, organise data, and keep execution moving across multiple workstreams"*
+  - **Fast-paced multi-stakeholder environment** — JD's *"fast-paced environment where consistency matters"*
+- Also fills the post-Deloitte gap with substantive PM work, not silence.
+
+> ⚠️ **Action required:** Confirm exact dates of Tooclarity engagement and counts (institutions visited, cities, partnerships closed). Currently shown as "2025 (project engagement)" — replace with exact dates and add 2–3 numbers if possible.
+
+### CHG-17 — NEW section: "Mentorship & Community Engagement"
+
+- **Before:** Not on resume.
+- **After:** New section between Experience and Education with 3 bullets covering college-to-corporate mentoring, skill-development sessions, and 1:1 career pathing.
+- **Why for BrightEdge specifically:** Even for a FinOps/PMO role, mentoring signals operator instincts — knowledge transfer, structured enablement, repeatable processes, peer support. Lightweight section (3 bullets) so it doesn't pull focus from the cost-ops story but adds personality + initiative.
+
+> ⚠️ **Action required:** Add approximate counts (e.g., "30+ students," "10+ sessions across 3 colleges"). Numbers strengthen this from anecdote to evidence.
+
+### What was deliberately NOT added
+
+- ❌ **No DEI / diversity content** — irrelevant to a Cloud Cost Operations / FinOps role; would dilute keyword density on what actually matters.
+- ❌ **No "Interests & Continuous Learning" DEI line** — that bullet only belongs on a Diversity/HR-track resume.
+- ❌ **No accessibility / inclusive recruitment vocabulary** — same reason.
+
+### v2 Length
+
+- Still **2 pages** (added Tooclarity + Mentorship without overflowing — Awards & Additional sections still fit cleanly).
+
+### v2 Updated keyword density
+
+| Keyword | v1 count | v2 count |
+|---|---|---|
+| Tooclarity | 0 | 3 |
+| Mentor / mentoring | 1 | 4 |
+| Pipeline / follow-up | 4 | 6 |
+| Cross-functional / multi-stakeholder | 2 | 5 |
+| Diversity / DEI / inclusion | 0 | 0 ✅ |

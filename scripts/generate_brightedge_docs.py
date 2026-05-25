@@ -121,6 +121,31 @@ EXPERIENCE = [
         ],
     },
     {
+        "company": "Tooclarity (tooclarity.com)",
+        "location": "Hyderabad, India (travel across India)",
+        "role": "Project Manager — Institutional Outreach & Onboarding",
+        "dates": "2025 (project engagement)",
+        "bullets": [
+            "Partnered with the founder on go-to-market for institutional onboarding at Tooclarity, an "
+            "India-based education-discovery platform — visited colleges and educational institutions in "
+            "person, pitched the platform's value proposition to deans and decision-makers, and closed "
+            "listing agreements (RFP-style wins at startup scale).",
+
+            "Brought PMO discipline to a founder-led environment: built and ran the outreach pipeline "
+            "(prospect lists, meeting cadence, post-visit follow-ups) and a lightweight CRM for "
+            "institutional commitments and renewal tracking — kept nothing slipping through the cracks "
+            "in a fast-paced, multi-stakeholder setting.",
+
+            "Coordinated between founders, operations, and onboarded institutions during launch — "
+            "established weekly review cadence, status updates, and a shared backlog so commitments, "
+            "dependencies, and follow-ups stayed visible across the team.",
+
+            "Adapted pitch and process across diverse institution tiers and decision-making styles, "
+            "building repeatable onboarding playbooks for newly partnered colleges and supporting the "
+            "founder on positioning, pricing conversations, and partner-tier negotiations.",
+        ],
+    },
+    {
         "company": "Wells Fargo",
         "location": "Hyderabad, India",
         "role": "Associate Financial Analyst",
@@ -137,6 +162,19 @@ EXPERIENCE = [
             "feedback loops for upstream operations teams.",
         ],
     },
+]
+
+MENTORSHIP = [
+    "Mentored undergraduate and MBA students across Osmania University and partner colleges on the "
+    "college-to-corporate transition — covered skill gaps, professional documentation, stakeholder "
+    "communication, and pathways into PMO, consulting, and finance roles.",
+
+    "Ran skill-development sessions bridging classroom learning to corporate expectations — interview "
+    "prep, resume craft, workplace etiquette, and basic project / stakeholder skills — preparing "
+    "students with corporate-ready capabilities before campus placements.",
+
+    "Advised students through 1:1 conversations on career pathing into PMO, consulting, finance, and "
+    "operations roles; built a small, ongoing peer network for follow-up support.",
 ]
 
 EDUCATION = [
@@ -342,6 +380,11 @@ def build_resume_docx(out_path: Path):
         for b in job["bullets"]:
             _add_bullet(doc, b)
 
+    # Mentorship & Community
+    _add_section_heading(doc, "Mentorship & Community Engagement")
+    for m in MENTORSHIP:
+        _add_bullet(doc, m)
+
     # Education
     _add_section_heading(doc, "Education")
     for e in EDUCATION:
@@ -537,6 +580,11 @@ def build_resume_pdf(out_path: Path):
         for b in job["bullets"]:
             _pdf_bullet(pdf, b)
         pdf.ln(1)
+
+    # Mentorship & Community
+    _pdf_section_heading(pdf, "Mentorship & Community Engagement")
+    for m in MENTORSHIP:
+        _pdf_bullet(pdf, m)
 
     # Education
     _pdf_section_heading(pdf, "Education")
